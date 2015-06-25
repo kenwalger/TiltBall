@@ -1,10 +1,13 @@
 package com.zyzzyxtech.tiltball;
 
-import java.util.Timer;
-import java.util.TimerTask;
-import com.zyzzyxtech.tiltball.R;
 import android.app.Activity;
+import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.PointF;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Display;
@@ -13,16 +16,13 @@ import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager.LayoutParams;
 import android.widget.FrameLayout;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorManager;
-import android.content.Context;
-import android.content.res.Configuration;
-import android.hardware.SensorEventListener;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class TiltBallActivity extends Activity {
 
-    
+    public static final String TAG = TiltBallActivity.class.getSimpleName();
     BallView mBallView = null;
     Handler RedrawHandler = new Handler(); // So redraw occurs in main thread.
     Timer mTmr = null;
@@ -132,7 +132,7 @@ public class TiltBallActivity extends Activity {
                 
                 // If debugging with external device,
                 // a log cat viewer will be needed on the device
-                android.util.Log.d("TiltBall", "Timer Hit - " + mBallPos.x + ":" + mBallPos.y);
+                android.util.Log.d(TAG, "Timer Hit - " + mBallPos.x + ":" + mBallPos.y);
 
                 // Move ball based on current speed
                 mBallPos.x += mBallSpd.x;
