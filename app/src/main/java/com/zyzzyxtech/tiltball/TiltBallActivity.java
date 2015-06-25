@@ -3,11 +3,13 @@ package com.zyzzyxtech.tiltball;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.Point;
 import android.graphics.PointF;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Display;
@@ -48,9 +50,21 @@ public class TiltBallActivity extends Activity {
         // with a speed of zero.
 
         // Get screen dimensions
+
+        final int version = Build.VERSION.SDK_INT;
         Display display = getWindowManager().getDefaultDisplay();
-        mScrWidth = display.getWidth();
-        mScrHeight = display.getHeight();
+
+        if (version >= 13) {
+            Point size = new Point();
+            display.getSize(size);
+            mScrWidth = size.x;
+            mScrHeight = size.y;
+        } else {
+
+            mScrWidth = display.getWidth();
+            mScrHeight = display.getHeight();
+        }
+
         mBallPos = new android.graphics.PointF();
         mBallSpd = new android.graphics.PointF();
 
@@ -169,7 +183,7 @@ public class TiltBallActivity extends Activity {
     {
         super.onDestroy();
         // Wait for threads to exit before clearing app
-        System.runFinalizersOnExit(true);
+        finish();
         // Remove app from memory
         android.os.Process.killProcess(android.os.Process.myPid());
     }
